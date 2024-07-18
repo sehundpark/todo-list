@@ -4,7 +4,7 @@ import { Task } from './task.js';
 
 export class TaskPlanner {
     constructor() {
-        this.categories = []; // Add this line
+        this.categories = [];
         this.initializeElements();
         this.bindEvents();
         this.currentProject = null;
@@ -23,24 +23,16 @@ export class TaskPlanner {
 
     bindEvents() {
         this.addCategoryBtn.addEventListener('click', () => this.handleAddCategory());
-        this.categoriesContainer.addEventListener('click', (e) => this.handleCategoryClick(e));
-        // Remove the event listener for category clicks if it exists
-        this.categoriesContainer.removeEventListener('click', this.handleCategoryClick);
-        // Add the event listener with the bound method
-        this.handleCategoryClick = this.handleCategoryClick.bind(this);
-        this.categoriesContainer.addEventListener('click', this.handleCategoryClick);
-        this.addTaskBtn.addEventListener('click', () => {
-            this.toggleModal();
-        });
+        this.addTaskBtn.addEventListener('click', () => this.toggleModal());
         this.addTaskForm.addEventListener('submit', (e) => this.handleAddTask(e));
         this.closeButton.addEventListener('click', () => this.toggleModal());
+        this.categoriesContainer.addEventListener('click', (e) => this.handleCategoryClick(e));
     }
 
-    handleAddCategory() {
-        const categoryName = prompt('Enter category name:');
-        if (categoryName) {
-            this.addCategory(categoryName);
-            this.saveToLocalStorage();
+    handleCategoryClick(e) {
+        if (e.target.classList.contains('project')) {
+            const project = e.target.__project;
+            this.showTasks(project);
         }
     }
 
@@ -64,13 +56,6 @@ export class TaskPlanner {
         }
     }
 
-    handleCategoryClick(e) {
-        if (e.target.classList.contains('project')) {
-            const project = e.target.__project;
-            this.showTasks(project);
-        }
-    }
-
     showTasks(project) {
         this.currentProject = project;
         this.tasksContainer.innerHTML = '';
@@ -81,6 +66,27 @@ export class TaskPlanner {
             taskElement.__taskPlanner = this;
             this.tasksContainer.appendChild(taskElement);
         });
+    }
+
+    toggleModal() {
+        this.taskModal.classList.toggle('hidden');
+    }
+
+    handleAddTask(e) {
+        e.preventDefault();
+        if (this.currentProject) {
+            const task = new Task(
+                document.getElementById('task-title').value,
+                document.getElementById('task-desc').value,
+                document.getElementById('task-due').value,
+                document.getElementById('task-priority').value
+            );
+            this.currentProject.addTask(task);
+            this.showTasks(this.currentProject);
+            this.addTaskForm.reset();
+            this.toggleModal();
+            this.saveToLocalStorage();
+        }
     }
 
     editTask(task) {
@@ -120,44 +126,6 @@ export class TaskPlanner {
             this.showTasks(this.currentProject);
             this.saveToLocalStorage();
         }
-    }
-
-    handleAddTask(e) {
-        e.preventDefault();
-        if (this.currentProject) {
-            const task = new Task(
-                document.getElementById('task-title').value,
-                document.getElementById('task-desc').value,
-                document.getElementById('task-due').value,
-                document.getElementById('task-priority').value
-            );
-            this.currentProject.addTask(task);
-            this.showTasks(this.currentProject);
-            document.getElementById('add-task-form').reset();
-            this.toggleModal();
-            this.saveToLocalStorage();
-        }
-    }
-
-    handleAddTask(e) {
-        e.preventDefault();
-        if (this.currentProject) {
-            const task = new Task(
-                document.getElementById('task-title').value,
-                document.getElementById('task-desc').value,
-                document.getElementById('task-due').value,
-                document.getElementById('task-priority').value
-            );
-            this.currentProject.addTask(task);
-            this.showTasks(this.currentProject);
-            this.addTaskForm.reset();
-            this.toggleModal();
-            this.saveToLocalStorage();
-        }
-    }
-
-    toggleModal() {
-        this.taskModal.classList.toggle('hidden');
     }
 
     windowOnClick(e) {
