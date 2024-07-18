@@ -4,6 +4,7 @@ import { Task } from './task.js';
 
 export class TaskPlanner {
     constructor() {
+        this.categories = []; // Add this line
         this.initializeElements();
         this.bindEvents();
         this.currentProject = null;
@@ -13,7 +14,7 @@ export class TaskPlanner {
     initializeElements() {
         this.addCategoryBtn = document.getElementById('add-category-btn');
         this.categoriesContainer = document.getElementById('categories');
-        this.tasksContainer = document.getElementById('tasks-container');
+        this.tasksContainer = document.getElementById('task-list');
         this.addTaskBtn = document.getElementById('add-task-btn');
         this.taskModal = document.getElementById('task-modal');
         this.addTaskForm = document.getElementById('add-task-form');
@@ -45,7 +46,22 @@ export class TaskPlanner {
 
     addCategory(name) {
         const category = new Category(name, this);
+        this.categories.push(category); // Add this line
         this.categoriesContainer.appendChild(category.render());
+    }
+
+    deleteCategory(category) {
+        const index = this.categories.indexOf(category);
+        if (index > -1) {
+            this.categories.splice(index, 1);
+            this.categoriesContainer.removeChild(category.element);
+            if (this.currentProject && this.currentProject.category === category) {
+                this.currentProject = null;
+                this.tasksContainer.innerHTML = '';
+                this.addTaskBtn.classList.add('hidden');
+            }
+            this.saveToLocalStorage();
+        }
     }
 
     handleCategoryClick(e) {
@@ -152,16 +168,13 @@ export class TaskPlanner {
 
     saveToLocalStorage() {
         const data = {
-            categories: Array.from(this.categoriesContainer.children).map(categoryEl => {
-                const category = categoryEl.__category;
-                return {
-                    name: category.name,
-                    projects: category.projects.map(project => ({
-                        name: project.name,
-                        tasks: project.tasks.map(task => task.toJSON())
-                    }))
-                };
-            })
+            categories: this.categories.map(category => ({
+                name: category.name,
+                projects: category.projects.map(project => ({
+                    name: project.name,
+                    tasks: project.tasks.map(task => task.toJSON())
+                }))
+            }))
         };
         localStorage.setItem('taskPlannerData', JSON.stringify(data));
     }
@@ -171,10 +184,12 @@ export class TaskPlanner {
         if (data) {
             data.categories.forEach(categoryData => {
                 const category = new Category(categoryData.name, this);
+                this.categories.push(category);
                 this.categoriesContainer.appendChild(category.render());
                 categoryData.projects.forEach(projectData => {
                     const project = new Project(projectData.name, category);
-                    category.addExistingProject(project);
+                    category.projects.push(project);
+                    category.element.querySelector('.projects').appendChild(project.render());
                     projectData.tasks.forEach(taskData => {
                         const task = new Task(taskData.title, taskData.description, taskData.dueDate, taskData.priority);
                         project.addTask(task);

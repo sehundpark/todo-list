@@ -133,6 +133,29 @@ button:active {
     transform: translateY(-2px);
 }
 
+.category-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.delete-category-btn,
+.delete-project-btn {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 0.8em;
+}
+
+.delete-category-btn:hover,
+.delete-project-btn:hover {
+    background-color: #c0392b;
+}
+
 .add-project-btn {
     background-color: var(--secondary-color);
     color: white;
@@ -161,13 +184,13 @@ button:active {
 
 /* Project Styles */
 .project {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px;
+    margin-bottom: 5px;
     background-color: #ecf0f1;
-    padding: 0.75rem;
-    margin-bottom: 0.75rem;
     border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.1s ease;
-    font-weight: 500;
 }
 
 .project:hover {

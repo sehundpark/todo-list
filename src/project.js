@@ -9,9 +9,25 @@ export class Project {
     createElement() {
         const projectDiv = document.createElement('div');
         projectDiv.classList.add('project');
-        projectDiv.textContent = this.name;
+        projectDiv.innerHTML = `
+            <span>${this.name}</span>
+            <button class="delete-project-btn">X</button>
+        `;
         projectDiv.__project = this;
+
+        const deleteProjectBtn = projectDiv.querySelector('.delete-project-btn');
+        deleteProjectBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            this.deleteProject();
+        });
+
         return projectDiv;
+    }
+
+    deleteProject() {
+        if (confirm('Are you sure you want to delete this project and all its tasks?')) {
+            this.category.deleteProject(this);
+        }
     }
 
     addTask(task) {
