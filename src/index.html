@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Planner</title>
+</head>
+<body>
+    <header>
+        <h1>Task Planner</h1>
+    </header>
+
+    <main>
+        <div id="project-section" class="section">
+            <h2>Categories</h2>
+            <button id="add-category-btn">Add Category</button>
+            <div id="categories">
+                <!-- Categories will be added here dynamically -->
+            </div>
+        </div>
+        
+        <div id="tasks-section" class="section">
+            <h2>Tasks</h2>
+            <div id="tasks-container">
+                <!-- Tasks will be added here dynamically -->
+            </div>
+            <button id="add-task-btn" class="hidden">Add Task</button>
+        </div>
+        
+        <div id="task-modal" class="modal hidden">
+            <div class="modal-content">
+                <h3>Add Task</h3>
+                <form id="add-task-form">
+                    <label for="task-title">Title:</label>
+                    <input type="text" id="task-title" required>
+                    
+                    <label for="task-desc">Description:</label>
+                    <textarea id="task-desc"></textarea>
+                    
+                    <label for="task-due">Due Date:</label>
+                    <input type="date" id="task-due">
+                    
+                    <label for="task-priority">Priority:</label>
+                    <select id="task-priority">
+                        <option value="low">Low</option>
+                        <option value="medium">Medium</option>
+                        <option value="high">High</option>
+                    </select>
+                    
+                    <button type="submit">Add Task</button>
+                </form>
+                <button class="close-button">&times;</button>
+            </div>
+        </div>
+</body>
+</html>

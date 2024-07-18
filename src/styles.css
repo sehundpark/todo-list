@@ -1,0 +1,334 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+:root {
+    --primary-color: #3498db;
+    --secondary-color: #2ecc71;
+    --background-color: #f5f7fa;
+    --text-color: #34495e;
+    --border-color: #bdc3c7;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --modal-background: rgba(52, 73, 94, 0.8);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--background-color);
+}
+
+.hidden {
+    display: none;
+}
+
+header {
+    background: var(--primary-color);
+    color: white;
+    text-align: center;
+    padding: 1.5rem;
+    box-shadow: 0 2px 5px var(--shadow-color);
+}
+
+header h1 {
+    font-weight: 600;
+}
+
+main {
+    display: flex;
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 2rem;
+}
+
+#project-section {
+    flex: 1;
+    padding-right: 2rem;
+}
+
+#tasks-section {
+    flex: 2;
+    padding-left: 2rem;
+    border-left: 1px solid var(--border-color);
+}
+
+h2 {
+    margin-bottom: 1.5rem;
+    color: var(--primary-color);
+    font-weight: 500;
+}
+
+/* Form Styles */
+form {
+    display: flex;
+    margin-bottom: 1.5rem;
+}
+
+input[type="text"], 
+input[type="date"], 
+textarea, 
+select {
+    flex-grow: 1;
+    padding: 0.75rem;
+    margin-right: 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.9rem;
+}
+
+button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.25rem;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+}
+
+button:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+/* Category Styles */
+.category {
+    background-color: white;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    padding: 1.25rem;
+    box-shadow: 0 2px 10px var(--shadow-color);
+}
+
+.category h3 {
+    margin-bottom: 1rem;
+    color: var(--primary-color);
+}
+
+#add-category-btn {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.25rem;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+#add-category-btn:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+}
+
+.add-project-btn {
+    background-color: var(--secondary-color);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+.add-project-btn:hover {
+    background-color: #27ae60;
+    transform: translateY(-2px);
+}
+
+.add-project-btn {
+    background-color: var(--secondary-color);
+    margin-bottom: 1rem;
+    width: 100%;
+}
+
+.add-project-btn:hover {
+    background-color: #27ae60;
+}
+
+/* Project Styles */
+.project {
+    background-color: #ecf0f1;
+    padding: 0.75rem;
+    margin-bottom: 0.75rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    font-weight: 500;
+}
+
+.project:hover {
+    background-color: #d5dbdb;
+    transform: translateX(5px);
+}
+
+/* Task Styles */
+.task {
+    background-color: white;
+    border-radius: 8px;
+    margin-bottom: 1.25rem;
+    padding: 1.25rem;
+    box-shadow: 0 2px 10px var(--shadow-color);
+    transition: transform 0.2s ease;
+}
+
+.task:hover {
+    transform: translateY(-3px);
+}
+
+.task h3 {
+    margin-bottom: 0.75rem;
+    color: var(--primary-color);
+}
+
+.task p {
+    margin-bottom: 0.75rem;
+    font-size: 0.95rem;
+}
+
+.task-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1rem;
+}
+
+.task-actions button {
+    margin-left: 0.75rem;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.85rem;
+}
+
+.edit-task {
+    background-color: #f39c12;
+}
+
+.edit-task:hover {
+    background-color: #d35400;
+}
+
+.delete-task {
+    background-color: #e74c3c;
+}
+
+.delete-task:hover {
+    background-color: #c0392b;
+}
+
+.priority-low { border-left: 5px solid #2ecc71; }
+.priority-medium { border-left: 5px solid #f39c12; }
+.priority-high { border-left: 5px solid #e74c3c; }
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+}
+
+.modal:not(.hidden) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal h3 {
+    margin-bottom: 1.5rem;
+    color: var(--primary-color);
+    font-weight: 500;
+}
+
+.modal form {
+    display: flex;
+    flex-direction: column;
+}
+
+.modal label {
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.modal input,
+.modal textarea,
+.modal select {
+    margin-bottom: 1.25rem;
+}
+
+.close-button {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 1.5rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-color);
+    transition: color 0.3s ease;
+}
+
+.close-button:hover {
+    color: var(--primary-color);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    main {
+        flex-direction: column;
+    }
+
+    #project-section, 
+    #tasks-section {
+        padding: 0;
+        border: none;
+    }
+
+    #tasks-section {
+        margin-top: 2rem;
+    }
+}
+
+/* Add Task Button */
+#add-task-btn {
+    background-color: var(--secondary-color);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.25rem;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-top: 1rem;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+#add-task-btn:hover {
+    background-color: #27ae60;
+    transform: translateY(-2px);
+}
+
+#add-task-btn:active {
+    transform: scale(1);
+}
