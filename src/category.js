@@ -19,7 +19,10 @@ export class Category {
         categoryDiv.__category = this;
 
         const addProjectBtn = categoryDiv.querySelector('.add-project-btn');
-        addProjectBtn.addEventListener('click', () => this.addProject());
+        addProjectBtn.addEventListener('click', (e) => {
+            e.stopPropagation(); // Prevent event from bubbling up
+            this.addProject();
+        });
 
         return categoryDiv;
     }

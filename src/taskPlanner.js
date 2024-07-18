@@ -8,10 +8,6 @@ export class TaskPlanner {
         this.bindEvents();
         this.currentProject = null;
         this.loadFromLocalStorage();
-
-        // Debug checks
-        console.log('Add Task button:', this.addTaskBtn);
-        console.log('Task modal:', this.taskModal);
     }
 
     initializeElements() {
@@ -27,8 +23,12 @@ export class TaskPlanner {
     bindEvents() {
         this.addCategoryBtn.addEventListener('click', () => this.handleAddCategory());
         this.categoriesContainer.addEventListener('click', (e) => this.handleCategoryClick(e));
+        // Remove the event listener for category clicks if it exists
+        this.categoriesContainer.removeEventListener('click', this.handleCategoryClick);
+        // Add the event listener with the bound method
+        this.handleCategoryClick = this.handleCategoryClick.bind(this);
+        this.categoriesContainer.addEventListener('click', this.handleCategoryClick);
         this.addTaskBtn.addEventListener('click', () => {
-            console.log('Add Task button clicked'); // Debug log
             this.toggleModal();
         });
         this.addTaskForm.addEventListener('submit', (e) => this.handleAddTask(e));
@@ -49,12 +49,7 @@ export class TaskPlanner {
     }
 
     handleCategoryClick(e) {
-        if (e.target.classList.contains('add-project-btn')) {
-            const categoryElement = e.target.closest('.category');
-            const category = categoryElement.__category;
-            category.addProject();
-            this.saveToLocalStorage();
-        } else if (e.target.classList.contains('project')) {
+        if (e.target.classList.contains('project')) {
             const project = e.target.__project;
             this.showTasks(project);
         }
@@ -147,7 +142,6 @@ export class TaskPlanner {
 
     toggleModal() {
         this.taskModal.classList.toggle('hidden');
-        console.log('Modal toggled:', !this.taskModal.classList.contains('hidden')); // Debug log
     }
 
     windowOnClick(e) {
