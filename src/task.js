@@ -49,7 +49,11 @@ export class Task {
         this.description = description;
         this.dueDate = dueDate;
         this.priority = priority;
+        const oldElement = this.element;
         this.createTaskElement(); // Recreate the element with updated information
+        if (oldElement && oldElement.parentNode) {
+            oldElement.parentNode.replaceChild(this.element, oldElement);
+        }
     }
 
     render() {

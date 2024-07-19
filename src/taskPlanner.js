@@ -9,6 +9,8 @@ export class TaskPlanner {
         this.bindEvents();
         this.currentProject = null;
         this.loadFromLocalStorage();
+        this.isEditing = false;
+        this.taskBeingEdited = null;
     }
 
     initializeElements() {
@@ -24,7 +26,7 @@ export class TaskPlanner {
     bindEvents() {
         this.addCategoryBtn.addEventListener('click', () => this.handleAddCategory());
         this.addTaskBtn.addEventListener('click', () => this.toggleModal());
-        this.addTaskForm.addEventListener('submit', (e) => this.handleAddTask(e));
+        this.addTaskForm.addEventListener('submit', (e) => this.handleTaskFormSubmit(e));
         this.closeButton.addEventListener('click', () => this.toggleModal());
         this.categoriesContainer.addEventListener('click', (e) => this.handleCategoryClick(e));
     }
@@ -36,9 +38,17 @@ export class TaskPlanner {
         }
     }
 
+    handleAddCategory() {
+        const categoryName = prompt('Enter category name:');
+        if (categoryName) {
+            this.addCategory(categoryName);
+            this.saveToLocalStorage();
+        }
+    }
+
     addCategory(name) {
         const category = new Category(name, this);
-        this.categories.push(category); // Add this line
+        this.categories.push(category);
         this.categoriesContainer.appendChild(category.render());
     }
 
@@ -70,55 +80,60 @@ export class TaskPlanner {
 
     toggleModal() {
         this.taskModal.classList.toggle('hidden');
-    }
+        if (this.taskModal.classList.contains('hidden')) {
+            // Reset form when closing
+            this.addTaskForm.reset();
+            this.isEditing = false;
+            this.taskBeingEdited = null;
+            document.querySelector('#add-task-form button[type="submit"]').textContent = 'Add Task';
+        }
+    }    
 
-    handleAddTask(e) {
+    handleTaskFormSubmit(e) {
         e.preventDefault();
         if (this.currentProject) {
-            const task = new Task(
-                document.getElementById('task-title').value,
-                document.getElementById('task-desc').value,
-                document.getElementById('task-due').value,
-                document.getElementById('task-priority').value
-            );
-            this.currentProject.addTask(task);
-            this.showTasks(this.currentProject);
+            const title = document.getElementById('task-title').value;
+            const description = document.getElementById('task-desc').value;
+            const dueDate = document.getElementById('task-due').value;
+            const priority = document.getElementById('task-priority').value;
+    
+            if (this.isEditing && this.taskBeingEdited) {
+                // Update existing task
+                this.taskBeingEdited.update(title, description, dueDate, priority);
+                this.isEditing = false;
+                this.taskBeingEdited = null;
+            } else {
+                // Add new task
+                const task = new Task(title, description, dueDate, priority);
+                this.currentProject.addTask(task);
+                const taskElement = task.render();
+                taskElement.__taskPlanner = this;
+                this.tasksContainer.appendChild(taskElement);
+            }
+    
             this.addTaskForm.reset();
             this.toggleModal();
             this.saveToLocalStorage();
+    
+            // Reset the submit button text
+            document.querySelector('#add-task-form button[type="submit"]').textContent = 'Add Task';
         }
-    }
+    }    
 
     editTask(task) {
+        this.isEditing = true;
+        this.taskBeingEdited = task;
+    
         document.getElementById('task-title').value = task.title;
         document.getElementById('task-desc').value = task.description;
         document.getElementById('task-due').value = task.dueDate;
         document.getElementById('task-priority').value = task.priority;
-
+    
+        // Change the submit button text
+        document.querySelector('#add-task-form button[type="submit"]').textContent = 'Update Task';
+    
         this.toggleModal();
-
-        const submitHandler = (e) => {
-            e.preventDefault();
-            task.update(
-                document.getElementById('task-title').value,
-                document.getElementById('task-desc').value,
-                document.getElementById('task-due').value,
-                document.getElementById('task-priority').value
-            );
-            
-            // Replace the old element with the new one
-            const oldElement = task.element;
-            const newElement = task.render();
-            newElement.__taskPlanner = this;
-            oldElement.parentNode.replaceChild(newElement, oldElement);
-
-            this.toggleModal();
-            this.saveToLocalStorage();
-            this.addTaskForm.removeEventListener('submit', submitHandler);
-        };
-
-        this.addTaskForm.addEventListener('submit', submitHandler);
-    }
+    }    
 
     deleteTask(task) {
         if (confirm('Are you sure you want to delete this task?')) {
