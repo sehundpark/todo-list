@@ -176,6 +176,7 @@ export class TaskPlanner {
                     category.element.querySelector('.projects').appendChild(project.render());
                     projectData.tasks.forEach(taskData => {
                         const task = new Task(taskData.title, taskData.description, taskData.dueDate, taskData.priority);
+                        task.completed = taskData.completed;
                         project.addTask(task);
                     });
                 });

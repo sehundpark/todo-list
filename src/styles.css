@@ -200,12 +200,55 @@ button:active {
 
 /* Task Styles */
 .task {
+    display: flex;
+    align-items: flex-start;
     background-color: white;
     border-radius: 8px;
     margin-bottom: 1.25rem;
     padding: 1.25rem;
     box-shadow: 0 2px 10px var(--shadow-color);
     transition: transform 0.2s ease;
+}
+
+.task-checkbox {
+    margin-right: 1rem;
+    margin-top: 0.25rem;
+}
+
+.task-content {
+    flex-grow: 1;
+}
+
+.task.completed .task-content {
+    opacity: 0.6;
+    text-decoration: line-through;
+}
+
+.task-checkbox {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--primary-color);
+    border-radius: 4px;
+    outline: none;
+    transition: all 0.3s;
+    cursor: pointer;
+}
+
+.task-checkbox:checked {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.task-checkbox:checked::before {
+    content: '✓';
+    display: block;
+    text-align: center;
+    color: white;
+    font-size: 14px;
+    line-height: 16px;
 }
 
 .task:hover {
