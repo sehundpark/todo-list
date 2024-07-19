@@ -33,14 +33,14 @@ export class Task {
     }
 
     edit() {
-        if (this.element.__taskPlanner) {
-            this.element.__taskPlanner.editTask(this);
+        if (this.taskPlanner) {
+            this.taskPlanner.editTask(this);
         }
     }
 
     delete() {
-        if (this.element.__taskPlanner) {
-            this.element.__taskPlanner.deleteTask(this);
+        if (this.taskPlanner) {
+            this.taskPlanner.deleteTask(this);
         }
     }
 

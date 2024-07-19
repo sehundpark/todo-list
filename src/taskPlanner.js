@@ -73,7 +73,7 @@ export class TaskPlanner {
         
         project.tasks.forEach(task => {
             const taskElement = task.render();
-            taskElement.__taskPlanner = this;
+            task.taskPlanner = this;
             this.tasksContainer.appendChild(taskElement);
         });
     }
@@ -101,13 +101,14 @@ export class TaskPlanner {
                 // Update existing task
                 this.taskBeingEdited.update(title, description, dueDate, priority);
                 this.isEditing = false;
+                this.taskBeingEdited.taskPlanner = this;
                 this.taskBeingEdited = null;
             } else {
                 // Add new task
                 const task = new Task(title, description, dueDate, priority);
                 this.currentProject.addTask(task);
+                task.taskPlanner = this;
                 const taskElement = task.render();
-                taskElement.__taskPlanner = this;
                 this.tasksContainer.appendChild(taskElement);
             }
     
