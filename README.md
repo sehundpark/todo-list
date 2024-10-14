@@ -4,6 +4,8 @@ A comprehensive task management application built with JavaScript, allowing user
 
 ## Live Demo
 
+![taskplanner](https://github.com/user-attachments/assets/86e40c02-6a96-45a9-ace8-e33399a29ef8)
+
 Check out the live demo: [Task Planner](https://sehundpark.github.io/todo-list/)
 
 ## Features
