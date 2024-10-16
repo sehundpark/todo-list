@@ -1,6 +1,6 @@
 # Task Planner
 
-A comprehensive task management application built with JavaScript, allowing users to organize tasks into categories and projects.
+Task Planner is an advanced web-based task management application built with vanilla JavaScript (ES6+), HTML5, and CSS3. It implements object-oriented programming and MVC architecture, featuring a hierarchical organization of Categories, Projects, and Tasks. The app showcases dynamic UI updates, efficient event delegation, and local storage for data persistence. With its responsive design and modal interfaces for task creation and editing, Task Planner demonstrates proficiency in DOM manipulation and state management. This project highlights the ability to create complex, feature-rich web applications without relying on frameworks, making it an impressive showcase of front-end development skills.
 
 ## Live Demo
 
