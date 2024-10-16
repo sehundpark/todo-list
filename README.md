@@ -10,13 +10,11 @@ Check out the live demo: [Task Planner](https://sehundpark.github.io/todo-list/)
 
 ## Features
 
-- Create and manage categories
-- Add projects within categories
-- Create, edit, and delete tasks
-- Set task priorities and due dates
-- Mark tasks as completed
-- Responsive design for various screen sizes
-- Persistent storage using localStorage
+- Dynamic creation and deletion of categories, projects, and tasks.
+- Task prioritization (Low, Medium, High).
+- Local storage integration for data persistence.
+- Responsive design for mobile and desktop compatibility.
+- Modal implementation for task creation and editing.
 
 ## Project Structure
 
